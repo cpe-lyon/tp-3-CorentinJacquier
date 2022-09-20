@@ -79,5 +79,40 @@ Puis, on affiche les permissions avec la commande `ls -l`, on peut observer que 
 
 Avec la commande `sudo chmod 000 fichier`, on enlève toutes les permissions du fichier. Mais l'utilisateur root peut encore modifier et afficher le fichier. 
 
+On redonne les droits au fichier avec la commande : `sudo chmod 644 fichier`. 
 
+On sait que les droits de lecture et d'ecriture sont configurés sur le fichier. Donc, 'ajout de contenu dans le fichier fonctionne bien
 
+<img src="https://cdn.discordapp.com/attachments/1017478318934724638/1021358622372007956/unknown.png">
+
+La commande : `chmod 355 test` rend impossible l'affichage de contenu du dossier via la commande `ls`. 
+
+Afin rétablir les droits du dossier, on utilise la commande : `chmod 755 test`. 
+
+Modifier ou supprimer le fichier dépend des droits du fichier et non des droits du répertoire courant du fichier.
+
+Si on enlève le droit d'execution d'un répertoire, il sera impossible de voir son contenu et donc non modifiable.
+
+Donc la navigation via la commande `cd` dépend des droits des dossiers. 
+
+Afin qu'un autre utilisateur de mon groupe puisse uniquement lire le 'fichier', on tape la commande : `chmod 644 fichier`. 
+
+Le umask par défaut est `002`. 
+
+Or, ce umask est trop permissif. En effet, il donne au groupe des droits d'écriture et à tout les utilisateurs la traversée des différents répertoires. 
+
+Avec un umask `033` donné uniquement à l'utilisateur les droits d'écriture et la traversée des ses répertoires.
+
+C'est le umask `022` qui est le plus adapté pour que tous les utilisateurs soient capables de traverser les répertoires d'un utilisateur mais pour que lui seul soit en mesure de modifier ses fichiers.
+
+` 027` est un umask plus adapté afin que les membres du groupe y accèdent en lecture mais que d'autres utilisateurs ne soient pas capables d'y accèder.
+
+On sait que, `chmod u=rx,g=wx,o=r fic` retourne `chmod 534 fic`.  
+
+Mais aussi, `chmod uo+w,g-rx fic en sachant que les droits initiaux de fic sont r--r-x---` donne `chmod 602 fic`. 
+
+De plus, `chmod 653 fic` avec des droits initiaux de fic `711` retourne `chmod u-x,g+r,o+w fic`.
+
+Enfin `chmod u+x,g=w,o-r fic`  de droits initiaux de fic `r--r-x---` donne `chmod 520 fic`.
+
+Pour finir, 'passwd' possède les droits `-rw-r--r--`. Tous les utilisateurs peuvent le lire mais uniquement modifiable par son propriétaire (ou le logiciel).
